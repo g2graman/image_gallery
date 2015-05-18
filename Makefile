@@ -1,3 +1,5 @@
+PORT=8080
+
 all: lint prettify
 
 lint:
@@ -5,5 +7,8 @@ lint:
 
 prettify: 
 	@gulp prettify
+
+run:
+	php artisan serve --port=${PORT}
 
 .PHONY: lint prettify
