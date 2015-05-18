@@ -1,0 +1,19 @@
+{
+  "name": "image_gallery",
+  "version": "0.0.0",
+  "authors": [
+    "g2graman <fran.gramano@mail.utoronto.ca>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "master"
+  }
+}
