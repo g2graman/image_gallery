@@ -4,8 +4,11 @@ angular.module( 'image_gallery', [ 'ngMaterial', 'ngAria', 'ngMdIcons'])
         $scope.openLeftMenu = function() {
             $mdSidenav('left').toggle();
         };
-    })
-    .controller("homepageController",
+    }).controller("galleryController",
     function($scope, $mdSidenav, $animate){
-
+        $scope.dismissUpload = function() {
+            $( "#dismiss").fadeOut( "fast", function() {
+                // Animation complete.
+            });
+        };
     });

@@ -13,9 +13,11 @@
 
 //Route::get('/', 'WelcomeController@index');
 //Route::get('home', 'HomeController@index');
-Route::get('/', 'HomeController@index');
+Route::get('/', 'GalleryController@index');
+Route::post('/upload', array('uses' => 'GalleryController@upload'));
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+    '/upload' => 'GalleryController'
 ]);
