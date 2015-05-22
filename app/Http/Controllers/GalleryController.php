@@ -6,6 +6,14 @@ use Response;
 use Validator;
 use Request;
 
+use Session;
+
+use View;
+use App\Picture as Picture;
+
+use DB;
+use Log;
+
 class GalleryController extends Controller {
 
     /*
@@ -14,6 +22,7 @@ class GalleryController extends Controller {
     |--------------------------------------------------------------------------
     |
     */
+
 
     /**
      * Create a new controller instance.
@@ -26,11 +35,6 @@ class GalleryController extends Controller {
         $this->middleware('guest');
     }
 
-    /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
     public function index()
     {
         return view('gallery');
@@ -40,7 +44,7 @@ class GalleryController extends Controller {
     {
         $input = Input::all();
         $rules = array(
-            'file' => 'image|max:3000',
+            'file' => 'image|max:3000'
         );
 
         $validation = Validator::make($input, $rules);
@@ -52,22 +56,27 @@ class GalleryController extends Controller {
 
         if(Input::hasFile('file')) {
             $original = Input::file('file');
-            $filename = sha1(time().time()) . "." . $original->getClientOriginalExtension();
-            $upload_success = $original->move('uploads', $filename);
-            if( $upload_success ) {
-                return redirect('/')->with('message', 'Upload Successfull');
+            $uploadTime = time().time();
+            $filename = sha1($uploadTime);
+            $ext = $original->getClientOriginalExtension();
+            $uploadSuccess = $original->move('uploads', $filename . '.' . $ext);
+
+            if( $uploadSuccess ) {
+                $this->savePicture($filename,
+                    $original->getClientOriginalExtension(),
+                    $original->getClientSize(),
+                    $uploadTime);
+                return view('gallery');
             }
         }
         return redirect('/')->with('message', 'Upload failed');
 
     }
 
-    /**
-     * @param $uri
-     *
-     * Save the uri referred to by string $uri in the database
-     */
-    public function saveURI($uri) {
-        return;
+    public function savePicture($name, $ext, $size, $uploaded_at)
+    {
+        DB::insert('insert into itdept_test (name, ext, size, uploaded) values (?, ?, ?, ?)',
+            [$name, $ext, $size, $uploaded_at]);
     }
 }
+

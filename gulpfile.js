@@ -10,9 +10,7 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 GLOBBED_PHP_SOURCES = ['**/*.php', '!vendor/**', '!**/node_modules/**'];
 GLOBBED_JS_SOURCES = ['**/*.js', '!vendor/**', '!**/node_modules/**', '!**dist/**/*.js'];
-/*elixir(function(mix) {
-    mix.less('app.less');
-});*/
+
 gulp.task('phplint', function (cb) {
 	phplint(GLOBBED_PHP_SOURCES, {
 		limit: 10

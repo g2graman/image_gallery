@@ -2959,5 +2959,48 @@
                 "email": "taylorotwell@gmail.com"
             }
         ]
+    },
+    {
+        "name": "landish/pagination",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Landish/Pagination.git",
+            "reference": "d3097f67b525132ef436da58ed11ad2eae74695a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Landish/Pagination/zipball/d3097f67b525132ef436da58ed11ad2eae74695a",
+            "reference": "d3097f67b525132ef436da58ed11ad2eae74695a",
+            "shasum": ""
+        },
+        "require-dev": {
+            "illuminate/pagination": "~5.0",
+            "phpunit/phpunit": "~4.5"
+        },
+        "time": "2015-04-17 17:10:35",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Landish\\Pagination\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Lado Lomidze",
+                "email": "lado.lomidze@gmail.com"
+            }
+        ],
+        "description": "Laravel 5 Custom Pagination Presenter",
+        "keywords": [
+            "laravel",
+            "pagination"
+        ]
     }
 ]
