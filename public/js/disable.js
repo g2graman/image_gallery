@@ -1,3 +1,7 @@
-$('#disabled').each(function() {
-    $(this).children().attr("ng-disabled", "true");
-});
+$('#disabled')
+	.each(function () {
+		$(this)
+			.children()
+			.attr("ng-disabled", "true");
+	});
+
