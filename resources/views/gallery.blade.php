@@ -36,6 +36,8 @@ $count = Picture::all()->count();
                 @if ($count === 0)
                     No pictures to display
                 @else
+                    <!-- FORM BEGIN -->
+                <form method="post" role="form" action="/">
                     <md-content>
                         <md-card>
                             <md-card-content>
@@ -52,17 +54,26 @@ $count = Picture::all()->count();
                                                 <img class="md-avatar" src="{{ asset('uploads/' . $picture->name . '.' . $picture->ext) }}" width="150em" ng-click="showEnlarged($event)"/>
                                             </md-list-item>
                                             <div layout="column" layout-align="start center">
-                                                <md-subheader class="md-no-sticky">Delete</md-subheader>
-                                                <md-checkbox class="md-secondary"></md-checkbox>
+                                                <div layout="row" layout-align="center center">
+                                                    <md-subheader class="md-no-sticky">Mark to be deleted</md-subheader>
+                                                    <md-checkbox class="md-secondary" ng-click="updateChecked()" aria-label="delete"></md-checkbox>
+                                                </div>
+                                                <md-button type="submit" class="md-warn md-hue-3 md-raised" ng-click="postSingle($event)">Delete</md-button>
                                             </div>
                                         </div>
-                                            <md-divider md-inset ng-if="!$last"></md-divider>
+                                            <md-divider md-inset></md-divider>
                                     @endforeach
                                     </md-list>
                                 </span>
                             </md-card-content>
                         </md-card>
                     </md-content>
+                    <div layout="column" ng-if="getChecked()" ng-click="postMass()" layout-align="centre centre">
+                        <md-button class="md-accent">Delete Selected</md-button>
+                    </div>
+                    <input type="hidden" value="" name="data" id="data"/>
+                    </form>
+                    <!-- FORM END -->
                 @endif
                 @if ($count > $pageLimit)
                     <footer>

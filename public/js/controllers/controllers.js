@@ -18,6 +18,57 @@
             };
         }).controller("galleryController",
         function($scope, $mdSidenav, $animate, $mdDialog){
+            $scope.checked = 0;
+
+            $scope.updateChecked = function() {
+                $scope.checked = 0;
+              $('.md-checked').each(function(){
+                  $scope.checked += 1;
+              });
+            };
+
+            $scope.postMass = function() {
+                var data = {};
+                var srcs = [];
+
+                $('.md-checked').each(function(){
+                    srcs.push($(this).closest('[layout=column]').siblings().children('img').attr('src'));
+                });
+
+                var bases = [];
+                var exts = [];
+                for(var i=0; i < srcs.length; i++) {
+                    var src = srcs[i];
+                    var base = new String(src).substring(src.lastIndexOf('/') + 1);
+                    if(base.lastIndexOf("/") != -1)
+                        base = base.substring(0, base.lastIndexOf("."));
+                    bases.push(base.split(".")[0]);
+                    exts.push(base.split(".")[1]);
+                }
+                data['names'] = bases;
+                data['exts'] = exts;
+                data = JSON.stringify(data);
+                $('#data').val(data);
+            };
+
+            $scope.postSingle = function(ev) {
+                var data = {};
+                var src = $(ev.currentTarget).closest('[layout=column]').siblings().children('img').attr('src');
+                var base = new String(src).substring(src.lastIndexOf('/') + 1);
+                if(base.lastIndexOf("/") != -1)
+                    base = base.substring(0, base.lastIndexOf("."));
+
+                data['names'] = [base.split(".")[0]];
+                data['exts'] = [base.split(".")[1]];
+                data = JSON.stringify(data);
+                $('#data').val(data);
+            };
+
+            $scope.getChecked = function() {
+                $scope.updateChecked();
+                return $scope.checked;
+            }
+
             $scope.dismissUpload = function(ev) {
                 $( "#dismiss").fadeOut( "fast", function() {});
                 /*$mdDialog.show($mdDialog.alert()

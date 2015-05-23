@@ -14,10 +14,12 @@
 //Route::get('/', 'WelcomeController@index');
 //Route::get('home', 'HomeController@index');
 Route::get('/', 'GalleryController@index');
+Route::post('/', array('uses' => 'GalleryController@delete'));
 Route::post('/upload', array('uses' => 'GalleryController@upload'));
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
-    '/upload' => 'GalleryController'
+    '/upload' => 'GalleryController',
+    '/' => 'GalleryController'
 ]);

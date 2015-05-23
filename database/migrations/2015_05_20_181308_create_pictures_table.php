@@ -20,6 +20,8 @@ class CreatePicturesTable extends Migration {
             $table->bigInteger('uploaded');
             $table->integer('size');
             $table->string('original_name');
+
+            $table->unique('name');
         });
     }
 

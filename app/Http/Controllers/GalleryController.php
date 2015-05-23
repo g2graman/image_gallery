@@ -5,6 +5,7 @@ use Input;
 use Response;
 use Validator;
 use Request;
+//Use URL;
 
 use Session;
 
@@ -40,13 +41,28 @@ class GalleryController extends Controller {
         return view('gallery');
     }
 
+    public function delete() {
+        $data = json_decode(Input::get('data'));
+        $basenames = $data->names;
+        //$exts = $data->exts; // For further development
+
+        $ids = [];
+        foreach($basenames as $name) {
+            $results = $this->getPictureIDFromHashedName($name);
+            foreach($results as $result) { // name field is unique so this will really only iterate once at most
+                array_push($ids, $result->id);
+            }
+        }
+        $this->deletePictures($ids);
+        return view('gallery');
+    }
+
     public function upload()
     {
         $input = Input::all();
         $rules = array(
             'file' => 'image|max:3000'
         );
-
         $validation = Validator::make($input, $rules);
 
         if ($validation->fails())
@@ -73,17 +89,26 @@ class GalleryController extends Controller {
             }
         }
         return redirect('/')->with('message', 'Upload failed');
-
     }
 
     protected function savePictureToDB($name, $ext, $size, $uploaded_at, $originalName)
     {
-        DB::insert('insert into itdept_test (name, ext, size, uploaded, original_name) values (?, ?, ?, ?, ?)',
-            [$name, $ext, $size, $uploaded_at, $originalName]);
+        try {
+            DB::insert('insert into itdept_test (name, ext, size, uploaded, original_name) values (?, ?, ?, ?, ?)',
+                [$name, $ext, $size, $uploaded_at, $originalName]);
+        } catch(\Exception $e){
+            error_log($e);
+            return null;
+        }
     }
 
     protected function deletePicturesfromDB($ids) {
-        DB::delete("delete from itdept_test where id in (" . implode(',', $ids) . ")");
+        try {
+            DB::delete("delete from itdept_test where id in (" . implode(',', $ids) . ")");
+        } catch(\Exception $e){
+            error_log($e);
+            return null;
+        }
     }
 
     protected function deletePicturesfromDisk($ids) {
@@ -108,6 +133,15 @@ class GalleryController extends Controller {
             error_log($e);
         }
 
+    }
+
+    protected function getPictureIDFromHashedName($name) {
+        try {
+            return DB::table('itdept_test')->select('id')->where('name', '=', $name)->get();
+        } catch(\Exception $e){
+            error_log($e);
+            return null;
+        }
     }
 
     protected function deletePictures($ids) {
