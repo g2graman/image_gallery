@@ -77,12 +77,12 @@ The tools and their uses include:
 ------------------------------
 
 ##Resources
-Aside from the embedded citations (which appear as links in this document), throughout development of the assignment I used other reasons. To list a few:
+To list a few resources I used during development of the assignment:
 
 - [An issue I submitted](https://github.com/mitchellh/vagrant/issues/5727), while configuring [Laravel Homestead](http://laravel.com/docs/5.0/homestead)
+- [Vagrant](https://www.vagrantup.com/) (when I considered adding a VM to the build automation for deployment)
 - [The Laravel documentation](http://laravel.com/docs/5.0)
 - [The AngularJS documentation](https://docs.angularjs.org/api)
 - [The Angular Material documentation](https://material.angularjs.org/#/)
 - [StackOverflow](http://stackoverflow.com/)
-
-######TODO: complete section
+- [The Landish/Pagination repository](https://github.com/Landish/Pagination)
