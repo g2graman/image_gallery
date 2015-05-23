@@ -6,6 +6,7 @@ use App\Pagination as Pagination;
 
 $pageLimit = 5;
 $pictures = Picture::paginate($pageLimit);
+$count = Picture::all()->count();
 ?>
 
 @section('content')
@@ -32,7 +33,7 @@ $pictures = Picture::paginate($pageLimit);
                 </div><br><br>
 
                 <!-- Begin page display -->
-                @if (count($pictures) === 0)
+                @if ($count === 0)
                     No pictures to display
                 @else
                     <md-content>
@@ -43,17 +44,21 @@ $pictures = Picture::paginate($pageLimit);
                                     <span class="md-flex" flex="10">
                                     </span>
                                     <span class="md-flex" flex="85">
+                                        <md-list>
                                         @foreach($pictures as $picture)
-                                                <img src="{{ asset('uploads/' . $picture->name . '.' . $picture->ext) }}" width="25%" class="md-accent md-hue-1" ng-click="showEnlarged($event)"> </img>
+                                            <md-list-item>
+                                                <img class="md-avatar" src="{{ asset('uploads/' . $picture->name . '.' . $picture->ext) }}" width="148px" class="md-accent md-hue-1" ng-click="showEnlarged($event)"> </img>
+                                            </md-list-item>
                                         @endforeach
+                                        </md-list>
                                     </span>
                                     </div>
                                 </div>
                             </md-card-content>
                         </md-card>
                     </md-content>
-
-                    @if (count($pictures) > $pageLimit)
+                @endif
+                @if ($count > $pageLimit)
                     <footer>
                         <div layout="row">
                             <span class="md-flex" flex="20" flex-sm="10"></span>
@@ -65,7 +70,6 @@ $pictures = Picture::paginate($pageLimit);
                             </span>
                         </div>
                     </footer>
-                    @endif
                 @endif
                 <!-- End page display -->
             </span>

@@ -56,16 +56,19 @@ class GalleryController extends Controller {
 
         if(Input::hasFile('file')) {
             $original = Input::file('file');
-            $uploadTime = time().time();
+            $uploadTime = time();
             $filename = sha1($uploadTime);
             $ext = $original->getClientOriginalExtension();
+
+            //Save file in public/uploads
             $uploadSuccess = $original->move('uploads', $filename . '.' . $ext);
 
             if( $uploadSuccess ) {
-                $this->savePicture($filename,
+                $this->savePictureToDB($filename,
                     $original->getClientOriginalExtension(),
                     $original->getClientSize(),
-                    $uploadTime);
+                    $uploadTime,
+                    $original->getClientOriginalName());
                 return view('gallery');
             }
         }
@@ -73,10 +76,43 @@ class GalleryController extends Controller {
 
     }
 
-    public function savePicture($name, $ext, $size, $uploaded_at)
+    protected function savePictureToDB($name, $ext, $size, $uploaded_at, $originalName)
     {
-        DB::insert('insert into itdept_test (name, ext, size, uploaded) values (?, ?, ?, ?)',
-            [$name, $ext, $size, $uploaded_at]);
+        DB::insert('insert into itdept_test (name, ext, size, uploaded, original_name) values (?, ?, ?, ?, ?)',
+            [$name, $ext, $size, $uploaded_at, $originalName]);
+    }
+
+    protected function deletePicturesfromDB($ids) {
+        DB::delete("delete from itdept_test where id in (" . implode(',', $ids) . ")");
+    }
+
+    protected function deletePicturesfromDisk($ids) {
+        try {
+            $pictures = DB::select("SELECT name,ext FROM itdept_test WHERE id in (" . implode(',', $ids) . ")");
+
+            foreach($pictures as $picture) {
+                $basename = implode('.', get_object_vars($picture));
+                $filename = public_path() . '/uploads/' . $basename;
+
+
+                if (!File::delete($filename)) {
+                    error_log('ERROR deleting ' . $basename);
+                    return redirect('/')->with('message', 'ERROR deleting ' . $basename);
+                } else {
+                    error_log('Successfully deleted ' . $basename);
+                    return redirect('/')->with('message', 'Successfully deleted ' . $basename);
+                }
+            }
+
+        }catch(\Exception $e){
+            error_log($e);
+        }
+
+    }
+
+    protected function deletePictures($ids) {
+        $this->deletePicturesfromDisk($ids);
+        $this->deletePicturesfromDB($ids);
     }
 }
 

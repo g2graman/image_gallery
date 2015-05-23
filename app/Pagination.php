@@ -51,25 +51,3 @@ class Pagination extends BasePagination {
                                 </md-button>';
 
 }
-/*{
-                        controller: function DialogController($scope, $mdDialog) {
-                                        $scope.hide = function() {
-                                            $mdDialog.hide();
-                                        };
-                                        $scope.cancel = function() {
-                                            $mdDialog.cancel();
-                                        };
-                                        $scope.answer = function(answer) {
-                                            $mdDialog.hide(answer);
-                                        };
-                                    },
-                        template: '<md-dialog aria-label="Sample Dialog">' +
-                        '  <div class="md-actions">' +
-                        '    <md-button ng-click="hide()">' +
-                        '      cool!' +
-                        '    </md-button>' +
-                        '  </div>' +
-                        '</md-dialog>',
-                        targetEvent: ev,
-
-                    }*/

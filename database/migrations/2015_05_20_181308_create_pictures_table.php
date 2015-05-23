@@ -14,11 +14,12 @@ class CreatePicturesTable extends Migration {
     {
         Schema::create('itdept_test', function(Blueprint $table)
         {
-            //$table->bigIncrements('id');
+            $table->bigIncrements('id');
             $table->char('name', 40);
             $table->string('ext');
             $table->bigInteger('uploaded');
             $table->integer('size');
+            $table->string('original_name');
         });
     }
 

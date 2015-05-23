@@ -11,9 +11,11 @@ prettify:
 
 fresh_run: clean setup_db run
 
-run:
-	@php artisan optimize
+run: optimize
 	php artisan serve --port=${PORT}
+
+optimize:
+	@php artisan optimize
 
 init_db_settings:
 	mysql -u ${ROOT_DB_USER} -p < init_settings.sql
@@ -27,4 +29,4 @@ clean:
 	@php artisan clear-compiled
 	@php artisan cache:clear
 
-.PHONY: lint prettify run init_db_settings setup_db clean fresh_run
+.PHONY: lint prettify optimize run init_db_settings setup_db clean fresh_run
