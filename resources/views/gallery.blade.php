@@ -39,21 +39,27 @@ $count = Picture::all()->count();
                     <md-content>
                         <md-card>
                             <md-card-content>
-                                <div layout="column">
-                                    <div layout="row">
-                                    <span class="md-flex" flex="10">
-                                    </span>
-                                    <span class="md-flex" flex="85">
-                                        <md-list>
-                                        @foreach($pictures as $picture)
+                                <span class="md-flex" flex="10">
+                                </span>
+                                <span class="md-flex" flex="85">
+                                    <md-list>
+                                    @foreach($pictures as $picture)
+                                        <div layout="row" layout-align="space-between start">
                                             <md-list-item>
-                                                <img class="md-avatar" src="{{ asset('uploads/' . $picture->name . '.' . $picture->ext) }}" width="148px" class="md-accent md-hue-1" ng-click="showEnlarged($event)"> </img>
+                                                <div class="md-list-item-text">
+                                                    <md-subheader class="md-no-sticky">{{ $picture->original_name }}</md-subheader>
+                                                </div>
+                                                <img class="md-avatar" src="{{ asset('uploads/' . $picture->name . '.' . $picture->ext) }}" width="150em" ng-click="showEnlarged($event)"/>
                                             </md-list-item>
-                                        @endforeach
-                                        </md-list>
-                                    </span>
-                                    </div>
-                                </div>
+                                            <div layout="column" layout-align="start center">
+                                                <md-subheader class="md-no-sticky">Delete</md-subheader>
+                                                <md-checkbox class="md-secondary"></md-checkbox>
+                                            </div>
+                                        </div>
+                                            <md-divider md-inset ng-if="!$last"></md-divider>
+                                    @endforeach
+                                    </md-list>
+                                </span>
                             </md-card-content>
                         </md-card>
                     </md-content>
