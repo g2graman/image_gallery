@@ -112,6 +112,8 @@ class GalleryController extends Controller {
     }
 
     protected function deletePicturesfromDisk($ids) {
+        $errors = [];
+        $successful = [];
         try {
             $pictures = DB::select("SELECT name,ext FROM itdept_test WHERE id in (" . implode(',', $ids) . ")");
 
@@ -119,15 +121,19 @@ class GalleryController extends Controller {
                 $basename = implode('.', get_object_vars($picture));
                 $filename = public_path() . '/uploads/' . $basename;
 
-
                 if (!File::delete($filename)) {
-                    error_log('ERROR deleting ' . $basename);
-                    return redirect('/')->with('message', 'ERROR deleting ' . $basename);
+                    array_push($errors, $basename);
                 } else {
-                    error_log('Successfully deleted ' . $basename);
-                    return redirect('/')->with('message', 'Successfully deleted ' . $basename);
+                    array_push($successful, $basename);
                 }
             }
+
+            if(count($errors) > 0) {
+                error_log('ERROR deleting files: ' . print_r($errors, true));
+                return redirect('/');
+            }
+            error_log('Successfully deleted files: ' . print_r($successful, true));
+            return redirect('/');
 
         }catch(\Exception $e){
             error_log($e);
